@@ -1,0 +1,6 @@
+@Tjrj.Biblioteca.Api_HostAddress = http://localhost:5150
+
+GET {{Tjrj.Biblioteca.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
