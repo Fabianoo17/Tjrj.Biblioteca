@@ -1,0 +1,42 @@
+﻿@model List<Tjrj.Biblioteca.Application.Dtos.Livros.LivrosPorAutorDto>
+
+@{
+    ViewData["Title"] = "Relatório - Livros por Autor";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhum registro encontrado.</div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Autor</th>
+                <th>Livro</th>
+                <th>Editora</th>
+                <th>Edição</th>
+                <th>Ano</th>
+                <th>Assuntos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.AutorNome</td>
+                    <td>@r.Titulo</td>
+                    <td>@r.Editora</td>
+                    <td>@r.Edicao</td>
+                    <td>@r.AnoPublicacao</td>
+                    <td>@r.Assuntos</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

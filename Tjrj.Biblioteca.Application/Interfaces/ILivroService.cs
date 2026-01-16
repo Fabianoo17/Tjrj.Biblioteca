@@ -12,6 +12,9 @@ namespace Tjrj.Biblioteca.Application.Interfaces
 
     public interface ILivroService
     {
+
+        Task<ServiceResult<List<LivroListItemDto>>> GetAllAsync(CancellationToken ct = default);
+        Task<ServiceResult<LivroDetailsDto>> GetByIdAsync(int codl, CancellationToken ct = default);
         Task<ServiceResult<int>> CreateAsync(LivroCreateDto dto, CancellationToken ct = default);
         Task<ServiceResult<bool>> UpdateAsync(LivroUpdateDto dto, CancellationToken ct = default);
         Task<ServiceResult<bool>> DeleteAsync(int codl, CancellationToken ct = default);

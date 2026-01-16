@@ -1,0 +1,137 @@
+﻿@model Tjrj.Biblioteca.Web.Models.LivroFormVm
+
+@{
+    ViewData["Title"] = "Novo Livro";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Editora</label>
+                <input asp-for="Editora" class="form-control" />
+                <span asp-validation-for="Editora" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Edição</label>
+                    <input asp-for="Edicao" class="form-control" />
+                    <span asp-validation-for="Edicao" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Ano</label>
+                    <input asp-for="AnoPublicacao" class="form-control" />
+                    <span asp-validation-for="AnoPublicacao" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Autores</label>
+                <select asp-for="AutorIds" asp-items="Model.Autores" class="form-select" multiple size="6"></select>
+                <span asp-validation-for="AutorIds" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Assuntos</label>
+                <select asp-for="AssuntoIds" asp-items="Model.Assuntos" class="form-select" multiple size="6"></select>
+                <span asp-validation-for="AssuntoIds" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h5>Preços</h5>
+            <p class="text-muted mb-2">Informe pares (FormaCompraId, Valor). (Depois podemos melhorar com dropdown de formas.)</p>
+
+
+            <!-- linha extra para adicionar 1 preço -->
+            <div id="precosContainer">
+                @for (int i = 0; i < Model.Precos.Count; i++)
+                {
+                    <div class="row g-2 align-items-end mb-2 preco-row">
+                        <div class="col-md-4">
+                            <label class="form-label">FormaCompraId</label>
+                            <select asp-for="Precos[i].FormaCompraId"
+                                    asp-items="Model.FormasCompra"
+                                    class="form-select">
+                                <option value="">Selecione...</option>
+                            </select>
+                            <span asp-validation-for="Precos[i].FormaCompraId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Valor</label>
+                            <input asp-for="Precos[i].Valor"
+                                   class="form-control valor-reais"
+                                   data-inputmask="'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ',', 'digits': 2, 'autoUnmask': true" />
+                            <span asp-validation-for="Precos[i].Valor" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-outline-danger btn-remove-preco"
+                                    onclick="removePrecoRow(this)">
+                                Remover
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button type="button" class="btn btn-outline-primary" onclick="addPrecoRow()">
+                + Adicionar preço
+            </button>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const formasOptionsHtml = `@Html.Raw(string.Join("", Model.FormasCompra.Select(f => $"<option value='{f.Value}'>{f.Text}</option>")))`;
+
+        function addPrecoRow() {
+            const container = document.getElementById('precosContainer');
+            const index = container.querySelectorAll('.preco-row').length;
+
+            const html = `
+                <div class="row g-2 align-items-end mb-2 preco-row">
+                    <div class="col-md-4">
+                        <label class="form-label">Forma de compra</label>
+                        <select class="form-select" name="Precos[${index}].FormaCompraId">
+                            <option value="">Selecione...</option>
+                            ${formasOptionsHtml}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Valor</label>
+                        <input class="form-control" name="Precos[${index}].Valor" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-danger" onclick="removePrecoRow(this)">
+                            Remover
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', html);
+        }
+    </script>
+}

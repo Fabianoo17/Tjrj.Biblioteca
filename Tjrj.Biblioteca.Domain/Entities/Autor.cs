@@ -1,4 +1,6 @@
-﻿namespace Tjrj.Biblioteca.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tjrj.Biblioteca.Domain.Entities
 {
     public class Autor
     {

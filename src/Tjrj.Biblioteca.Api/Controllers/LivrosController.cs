@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tjrj.Biblioteca.Application.Dtos;
-using Tjrj.Biblioteca.Application.Interfaces;
 using Tjrj.Biblioteca.Application.Commom;
+using Tjrj.Biblioteca.Application.Dtos;
 using Tjrj.Biblioteca.Application.Dtos.Livros;
+using Tjrj.Biblioteca.Application.Interfaces;
 
 namespace Tjrj.Biblioteca.Api.Controllers;
 
@@ -15,6 +15,23 @@ public class LivrosController : ControllerBase
     public LivrosController(ILivroService service)
     {
         _service = service;
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(List<LivroListItemDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(CancellationToken ct)
+    {
+        var result = await _service.GetAllAsync(ct);
+        return this.ToActionResult(result);
+    }
+
+    [HttpGet("{codl:int}")]
+    [ProducesResponseType(typeof(LivroDetailsDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById([FromRoute] int codl, CancellationToken ct)
+    {
+        var result = await _service.GetByIdAsync(codl, ct);
+        return this.ToActionResult(result);
     }
 
     /// <summary>
@@ -35,7 +52,7 @@ public class LivrosController : ControllerBase
         if (result.Success)
         {
             // Retorna 201 e aponta para um GET futuro (quando você criar o GetById)
-            return CreatedAtAction(nameof(GetByIdPlaceholder), new { codl = result.Data }, result.Data);
+            return CreatedAtAction(nameof(GetById), new { codl = result.Data }, result.Data);
         }
 
         return this.ToActionResult(result);
@@ -84,9 +101,4 @@ public class LivrosController : ControllerBase
         return this.ToActionResult(result);
     }
 
-    // Placeholder apenas para o CreatedAtAction não quebrar.
-    // Quando criarmos o GET /api/livros/{codl}, a gente substitui.
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("{codl:int}")]
-    public IActionResult GetByIdPlaceholder(int codl) => Ok();
 }

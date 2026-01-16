@@ -26,6 +26,9 @@ namespace Tjrj.Biblioteca.IoC.Modules
             
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<IAutorService, AutorService>();
+            services.AddScoped<IAssuntoService, AssuntoService>();
+            services.AddScoped<IFormaCompraService, FormaCompraService>();
+            services.AddScoped<IRelatorioService, RelatorioService>();
 
             //Livros
             services.AddValidatorsFromAssembly(typeof(LivroCreateDto).Assembly);
@@ -39,6 +42,8 @@ namespace Tjrj.Biblioteca.IoC.Modules
             //Assuntos
             services.AddValidatorsFromAssembly(typeof(AssuntoCreateDto).Assembly);
             services.AddValidatorsFromAssembly(typeof(AssuntoUpdateDto).Assembly);
+
+
 
             return services;
         }

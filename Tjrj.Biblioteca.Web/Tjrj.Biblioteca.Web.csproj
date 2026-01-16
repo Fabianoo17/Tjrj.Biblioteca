@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tjrj.Biblioteca.Application\Tjrj.Biblioteca.Application.csproj" />
+  </ItemGroup>
+
 </Project>

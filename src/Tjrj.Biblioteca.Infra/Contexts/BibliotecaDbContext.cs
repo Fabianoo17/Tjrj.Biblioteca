@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tjrj.Biblioteca.Domain.Entities;
+using Tjrj.Biblioteca.Domain.Entities.Views;
 
 namespace Tjrj.Biblioteca.Infra.Contexts
 {
@@ -23,22 +24,23 @@ namespace Tjrj.Biblioteca.Infra.Contexts
         public DbSet<FormaCompra> FormasCompra => Set<FormaCompra>();
         public DbSet<LivroPreco> LivrosPrecos => Set<LivroPreco>();
 
-        // VIEW do relatório (somente leitura)
-        //public DbSet<RelatorioLivrosPorAutorRow> RelatorioLivrosPorAutor => Set<RelatorioLivrosPorAutorRow>();
+        public DbSet<VwRelatorioLivrosPorAutor> VwRelatorioLivrosPorAutor => Set<VwRelatorioLivrosPorAutor>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BibliotecaDbContext).Assembly);
-
-            //// Mapeamento da VIEW (sem key)
-            //modelBuilder.Entity<RelatorioLivrosPorAutorRow>(entity =>
-            //{
-            //    entity.HasNoKey();
-            //    entity.ToView("vw_relatorio_livros_por_autor");
-            //});
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<VwRelatorioLivrosPorAutor>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("vw_relatorio_livros_por_autor");
+            });
+
+            // ... seus outros mapeamentos
         }
+
+
 
 
     }
