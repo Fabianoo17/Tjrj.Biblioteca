@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Tjrj.Biblioteca.Application\Tjrj.Biblioteca.Application.csproj" />
     <ProjectReference Include="..\Tjrj.Biblioteca.IoC\Tjrj.Biblioteca.IoC.csproj" />
   </ItemGroup>
 

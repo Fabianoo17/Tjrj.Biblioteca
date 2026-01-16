@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tjrj.Biblioteca.Application.Commom;
-using Tjrj.Biblioteca.Application.Dtos;
+using Tjrj.Biblioteca.Application.Dtos.Livros;
 using Tjrj.Biblioteca.Application.Interfaces;
 using Tjrj.Biblioteca.Domain.Entities;
 using Tjrj.Biblioteca.Infra.Repositories;

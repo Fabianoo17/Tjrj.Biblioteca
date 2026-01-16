@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tjrj.Biblioteca.Application.Dtos.Livros;
 using Tjrj.Biblioteca.Application.Interfaces;
 using Tjrj.Biblioteca.Application.Services;
 
@@ -22,9 +23,10 @@ namespace Tjrj.Biblioteca.IoC.Modules
             
             
             services.AddScoped<ILivroService, LivroService>();
-            services.AddValidatorsFromAssembly(typeof(Tjrj.Biblioteca.Application.Dtos.LivroCreateDto).Assembly);
-            services.AddValidatorsFromAssembly(typeof(Tjrj.Biblioteca.Application.Dtos.LivroPrecoDto).Assembly);
-            services.AddValidatorsFromAssembly(typeof(Tjrj.Biblioteca.Application.Dtos.LivroUpdateDto).Assembly);
+            services.AddScoped<IAutorService, AutorService>();
+            services.AddValidatorsFromAssembly(typeof(LivroCreateDto).Assembly);
+            services.AddValidatorsFromAssembly(typeof(LivroPrecoDto).Assembly);
+            services.AddValidatorsFromAssembly(typeof(LivroUpdateDto).Assembly);
 
             return services;
         }

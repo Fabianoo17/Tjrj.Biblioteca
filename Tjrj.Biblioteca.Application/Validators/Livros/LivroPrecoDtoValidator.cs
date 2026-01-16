@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Tjrj.Biblioteca.Application.Dtos;
+using Tjrj.Biblioteca.Application.Dtos.Livros;
 
 namespace Tjrj.Biblioteca.Application.Validators.Livros
 {
