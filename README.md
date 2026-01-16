@@ -1,4 +1,4 @@
-# 📚 TJRJ.Biblioteca (BookSaver)
+# 📚 TJRJ.Biblioteca
 
 Sistema Web em **ASP.NET Core MVC (Razor)** com **API em camadas** para cadastro e gestão de livros, autores, assuntos e preços por forma de compra, incluindo relatório baseado em **VIEW no SQL Server**.
 
