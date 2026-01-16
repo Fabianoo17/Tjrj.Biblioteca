@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,20 +26,21 @@ namespace Tjrj.Biblioteca.Infra.Contexts
         // VIEW do relatório (somente leitura)
         //public DbSet<RelatorioLivrosPorAutorRow> RelatorioLivrosPorAutor => Set<RelatorioLivrosPorAutorRow>();
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.ApplyConfigurationsFromAssembly(typeof(BibliotecaDbContext).Assembly);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BibliotecaDbContext).Assembly);
 
-        //    // Mapeamento da VIEW (sem key)
-        //    modelBuilder.Entity<RelatorioLivrosPorAutorRow>(entity =>
-        //    {
-        //        entity.HasNoKey();
-        //        entity.ToView("vw_relatorio_livros_por_autor");
-        //    });
+            //// Mapeamento da VIEW (sem key)
+            //modelBuilder.Entity<RelatorioLivrosPorAutorRow>(entity =>
+            //{
+            //    entity.HasNoKey();
+            //    entity.ToView("vw_relatorio_livros_por_autor");
+            //});
 
-        //    base.OnModelCreating(modelBuilder);
-        //}
+            base.OnModelCreating(modelBuilder);
+        }
 
 
     }
+
 }
