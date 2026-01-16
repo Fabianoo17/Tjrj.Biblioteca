@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tjrj.Biblioteca.Application.Dtos;
+using Tjrj.Biblioteca.Application.Dtos.Livros;
 
 namespace Tjrj.Biblioteca.Application.Validators.Livros
 {

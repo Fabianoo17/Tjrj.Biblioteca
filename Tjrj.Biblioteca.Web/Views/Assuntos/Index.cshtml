@@ -1,0 +1,51 @@
+﻿@model List<Tjrj.Biblioteca.Application.Dtos.Assuntos.AssuntoDto>
+
+@{
+    ViewData["Title"] = "Assuntos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Assuntos</h2>
+    <a class="btn btn-primary" asp-action="Create">Novo Assunto</a>
+</div>
+
+@if (TempData["Error"] is not null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th class="text-end">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.CodAs</td>
+                <td>@a.Descricao</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary"
+                       asp-action="Edit"
+                       asp-route-id="@a.CodAs">Editar</a>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@a.CodAs"
+                          method="post"
+                          class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Tem certeza que deseja remover?');">
+                            Remover
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

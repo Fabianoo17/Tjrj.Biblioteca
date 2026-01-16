@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Tjrj.Biblioteca.Infra.Contexts;
 using Tjrj.Biblioteca.IoC;
 internal class Program
 {
@@ -11,9 +13,10 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddCrossCuttingDependencies(builder.Configuration);
 
         var app = builder.Build();
-        builder.Services.AddCrossCuttingDependencies(builder.Configuration);
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

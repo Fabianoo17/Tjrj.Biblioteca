@@ -1,0 +1,86 @@
+﻿@model Tjrj.Biblioteca.Web.Models.LivroFormVm
+
+@{
+    ViewData["Title"] = "Editar Livro";
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Editora</label>
+                <input asp-for="Editora" class="form-control" />
+                <span asp-validation-for="Editora" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Edição</label>
+                    <input asp-for="Edicao" class="form-control" />
+                    <span asp-validation-for="Edicao" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Ano</label>
+                    <input asp-for="AnoPublicacao" class="form-control" />
+                    <span asp-validation-for="AnoPublicacao" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Autores</label>
+                <select asp-for="AutorIds" asp-items="Model.Autores" class="form-select" multiple size="6"></select>
+                <span asp-validation-for="AutorIds" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Assuntos</label>
+                <select asp-for="AssuntoIds" asp-items="Model.Assuntos" class="form-select" multiple size="6"></select>
+                <span asp-validation-for="AssuntoIds" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h5>Preços</h5>
+            <p class="text-muted mb-2">Informe pares (FormaCompraId, Valor). (Depois podemos melhorar com dropdown de formas.)</p>
+
+            @for (int i = 0; i < (Model.Precos?.Count ?? 0); i++)
+            {
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <input asp-for="Precos[i].FormaCompraId" class="form-control" placeholder="FormaCompraId" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="Precos[i].Valor" class="form-control" placeholder="Valor" />
+                    </div>
+                </div>
+            }
+
+            <!-- linha extra para adicionar 1 preço -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <input name="Precos[0].FormaCompraId" class="form-control" placeholder="FormaCompraId" />
+                </div>
+                <div class="col-md-3">
+                    <input name="Precos[0].Valor" class="form-control" placeholder="Valor" />
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

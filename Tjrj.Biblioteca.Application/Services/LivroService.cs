@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tjrj.Biblioteca.Application.Commom;
-using Tjrj.Biblioteca.Application.Dtos;
+using Tjrj.Biblioteca.Application.Dtos.Assuntos;
+using Tjrj.Biblioteca.Application.Dtos.Autores;
+using Tjrj.Biblioteca.Application.Dtos.Livros;
 using Tjrj.Biblioteca.Application.Interfaces;
 using Tjrj.Biblioteca.Domain.Entities;
 using Tjrj.Biblioteca.Infra.Repositories;
@@ -31,7 +33,58 @@ namespace Tjrj.Biblioteca.Application.Services
             _assuntoRepo = assuntoRepo;
             _formaRepo = formaRepo;
         }
+        public async Task<ServiceResult<List<LivroListItemDto>>> GetAllAsync(CancellationToken ct = default)
+        {
+            var livros = await _livroRepo.GetListAsync(
+                predicate: null,
+                include: null,
+                asNoTracking: true,
+                cancellationToken: ct);
 
+            var dto = livros
+                .OrderBy(l => l.Titulo)
+                .Select(l => new LivroListItemDto
+                {
+                    Codl = l.Codl,
+                    Titulo = l.Titulo,
+                    Editora = l.Editora,
+                    Edicao = l.Edicao,
+                    AnoPublicacao = l.AnoPublicacao
+                })
+                .ToList();
+
+            return ServiceResult<List<LivroListItemDto>>.Ok(dto);
+        }
+
+        public async Task<ServiceResult<LivroDetailsDto>> GetByIdAsync(int codl, CancellationToken ct = default)
+        {
+            var livro = await _livroRepo.GetByIdAsync(codl, asNoTracking: true, ct);
+            if (livro is null)
+                return ServiceResult<LivroDetailsDto>.Fail(Errors.NotFound, "Livro não encontrado.");
+
+            var dto = new LivroDetailsDto
+            {
+                Codl = livro.Codl,
+                Titulo = livro.Titulo,
+                Editora = livro.Editora,
+                Edicao = livro.Edicao,
+                AnoPublicacao = livro.AnoPublicacao,
+
+                Autores = livro.Autores
+                    .Select(a => new AutorDto { CodAu = a.Autor_CodAu, Nome = a.Autor!.Nome })
+                    .ToList(),
+
+                Assuntos = livro.Assuntos
+                    .Select(s => new AssuntoDto { CodAs = s.Assunto_CodAs, Descricao = s.Assunto!.Descricao })
+                    .ToList(),
+
+                Precos = livro.Precos
+                    .Select(p => new LivroPrecoDto { FormaCompraId = p.FormaCompra_Id, Valor = p.Valor })
+                    .ToList()
+            };
+
+            return ServiceResult<LivroDetailsDto>.Ok(dto);
+        }
         public async Task<ServiceResult<int>> CreateAsync(LivroCreateDto dto, CancellationToken ct = default)
         {
             // (Opcional, mas recomendado) garantir que IDs existem:
@@ -157,4 +210,7 @@ namespace Tjrj.Biblioteca.Application.Services
             return formas.Count == distinct.Count;
         }
     }
+
+
+
 }
